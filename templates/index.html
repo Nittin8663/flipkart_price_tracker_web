@@ -38,7 +38,7 @@
             <td>{{ loop.index0 }}</td>
             <td><a href="{{ p.url }}" target="_blank">{{ p.url }}</a></td>
             <td>₹{{ p.target_price }}</td>
-            <td>{% if p.last_price %}₹{{ p.last_price }}{% else %}-{% endif %}</td>
+            <td>{% if p.last_price is not none %}₹{{ p.last_price }}{% else %}-{% endif %}</td>
             <td>
                 <form method="post" style="display:inline;">
                     <input type="hidden" name="delete" value="{{ loop.index0 }}">
