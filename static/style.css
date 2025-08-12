@@ -1,0 +1,6 @@
+body { font-family: Arial, sans-serif; margin: 30px; background: #f9f9f9; }
+h2 { color: #2d4b7c; }
+table { background: #fff; }
+button { margin-top: 5px; }
+#messages li.success { color: green; }
+#messages li.danger { color: red; }
