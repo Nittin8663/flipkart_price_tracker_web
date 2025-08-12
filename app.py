@@ -25,9 +25,15 @@ def get_flipkart_price(url):
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
         "Connection": "keep-alive"
     }
+    cookies = {
+        # Paste your exported cookies here if needed
+    }
     try:
-        r = pyrequests.get(url, headers=headers, timeout=15)
+        r = pyrequests.get(url, headers=headers, cookies=cookies, timeout=20)
         r.raise_for_status()
+        if "captcha" in r.text.lower() or "unusual traffic" in r.text.lower():
+            print("Blocked or CAPTCHA page received from Flipkart.")
+            return None
         soup = BeautifulSoup(r.content, "html.parser")
         price_tags = soup.find_all('div', {'class': '_30jeq3 _16Jk6d'})
         if not price_tags:
