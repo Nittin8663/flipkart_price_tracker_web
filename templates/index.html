@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flipkart Price Tracker (Web)</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h2>Flipkart Price Tracker</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul id="messages">
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post">
+        <label>Flipkart Product URL:</label><br>
+        <input type="text" name="url" required size="60"><br>
+        <label>Target Price (₹):</label><br>
+        <input type="number" name="target_price" required><br>
+        <button type="submit" name="add_product">Add Product</button>
+    </form>
+
+    <h3>Tracked Products</h3>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>#</th>
+            <th>URL</th>
+            <th>Target Price</th>
+            <th>Last Price</th>
+            <th>Action</th>
+        </tr>
+        {% for p in products %}
+        <tr>
+            <td>{{ loop.index0 }}</td>
+            <td><a href="{{ p.url }}" target="_blank">{{ p.url }}</a></td>
+            <td>₹{{ p.target_price }}</td>
+            <td>{% if p.last_price %}₹{{ p.last_price }}{% else %}-{% endif %}</td>
+            <td>
+                <form method="post" style="display:inline;">
+                    <input type="hidden" name="delete" value="{{ loop.index0 }}">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h3>Telegram Bot Settings</h3>
+    <form method="post">
+        <label>Bot Token:</label><br>
+        <input type="text" name="telegram_token" value="{{ telegram_token }}" required size="60"><br>
+        <label>Chat ID:</label><br>
+        <input type="text" name="telegram_chat_id" value="{{ telegram_chat_id }}" required size="30"><br>
+        <button type="submit" name="set_telegram">Set Telegram</button>
+    </form>
+</body>
+</html>
